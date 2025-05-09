@@ -30,6 +30,24 @@ class FindPlayerScreen extends StatefulWidget {
 class _FindPlayerScreenState extends State<FindPlayerScreen> {
   final List<Player> _players = [
     Player(
+      name: "Ege Kılıçaslan Şalk",
+      age: 24,
+      position: "Forvet",
+      photoUrl: "https://randomuser.me/api/portraits/men/9.jpg",
+      height: 1.82,
+      weight: 77,
+      city: "İstanbul",
+    ),
+    Player(
+      name: "Nedim Arda Şalk",
+      age: 26,
+      position: "Orta Saha",
+      photoUrl: "https://randomuser.me/api/portraits/men/8.jpg",
+      height: 1.84,
+      weight: 79,
+      city: "İstanbul",
+    ),
+    Player(
       name: "Ahmet Yılmaz",
       age: 25,
       position: "Forvet",
@@ -87,7 +105,7 @@ class _FindPlayerScreenState extends State<FindPlayerScreen> {
       name: "Mehmet Emin Tok",
       age: 27,
       position: "Defans",
-      photoUrl: "https://randomuser.me/api/portraits/men/7.jpg",
+      photoUrl: "https://randomuser.me/api/portraits/men/12.jpg",
       height: 1.87,
       weight: 82,
       city: "Ankara",
@@ -206,9 +224,16 @@ class _FindPlayerScreenState extends State<FindPlayerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Oyuncu Bul'),
+        title: const Text(
+          'Oyuncu Bul',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
         backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
         elevation: 0,
       ),
       body: Column(

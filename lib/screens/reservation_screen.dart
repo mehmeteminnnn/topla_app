@@ -486,8 +486,17 @@ class _ReservationScreenState extends State<ReservationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Halısaha Rezervasyonu'),
+        title: const Text(
+          'Rezervasyon',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
         backgroundColor: Colors.green,
+        elevation: 0,
       ),
       body: SafeArea(
         child: Column(
