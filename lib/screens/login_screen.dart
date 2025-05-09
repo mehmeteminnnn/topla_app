@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'register_screen.dart';
+import 'main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -90,8 +91,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // TODO: Implement login logic
+                      print(
+                          "Giriş denemesi: ${_emailController.text} / ${_passwordController.text}");
+                      try {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MainScreen(),
+                          ),
+                        );
+                      } catch (e) {
+                        print("Navigasyon hatası: $e");
                       }
                     },
                     style: ElevatedButton.styleFrom(
