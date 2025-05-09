@@ -7,6 +7,7 @@ class Player {
   final String photoUrl;
   final double height;
   final double weight;
+  final String city;
 
   Player({
     required this.name,
@@ -15,6 +16,7 @@ class Player {
     required this.photoUrl,
     required this.height,
     required this.weight,
+    required this.city,
   });
 }
 
@@ -34,6 +36,7 @@ class _FindPlayerScreenState extends State<FindPlayerScreen> {
       photoUrl: "https://randomuser.me/api/portraits/men/1.jpg",
       height: 1.78,
       weight: 75,
+      city: "İstanbul",
     ),
     Player(
       name: "Mehmet Demir",
@@ -42,6 +45,7 @@ class _FindPlayerScreenState extends State<FindPlayerScreen> {
       photoUrl: "https://randomuser.me/api/portraits/men/2.jpg",
       height: 1.82,
       weight: 78,
+      city: "Ankara",
     ),
     Player(
       name: "Ali Kaya",
@@ -50,6 +54,7 @@ class _FindPlayerScreenState extends State<FindPlayerScreen> {
       photoUrl: "https://randomuser.me/api/portraits/men/3.jpg",
       height: 1.85,
       weight: 80,
+      city: "İzmir",
     ),
     Player(
       name: "Can Özkan",
@@ -58,6 +63,7 @@ class _FindPlayerScreenState extends State<FindPlayerScreen> {
       photoUrl: "https://randomuser.me/api/portraits/men/4.jpg",
       height: 1.90,
       weight: 85,
+      city: "Bursa",
     ),
     Player(
       name: "Burak Şahin",
@@ -66,12 +72,22 @@ class _FindPlayerScreenState extends State<FindPlayerScreen> {
       photoUrl: "https://randomuser.me/api/portraits/men/5.jpg",
       height: 1.80,
       weight: 77,
+      city: "Antalya",
     ),
   ];
 
   String _selectedPosition = "Tümü";
+  String _selectedCity = "Tümü";
   String _sortBy = "Yaş";
   List<String> _positions = ["Tümü", "Forvet", "Orta Saha", "Defans", "Kaleci"];
+  List<String> _cities = [
+    "Tümü",
+    "İstanbul",
+    "Ankara",
+    "İzmir",
+    "Bursa",
+    "Antalya"
+  ];
   List<String> _sortOptions = ["Yaş", "Boy", "Kilo"];
 
   List<Player> get _filteredPlayers {
@@ -81,6 +97,11 @@ class _FindPlayerScreenState extends State<FindPlayerScreen> {
       filtered = filtered
           .where((player) => player.position == _selectedPosition)
           .toList();
+    }
+
+    if (_selectedCity != "Tümü") {
+      filtered =
+          filtered.where((player) => player.city == _selectedCity).toList();
     }
 
     switch (_sortBy) {
@@ -105,43 +126,101 @@ class _FindPlayerScreenState extends State<FindPlayerScreen> {
         title: const Text('Oyuncu Bul'),
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
+        elevation: 0,
       ),
       body: Column(
         children: [
           Container(
             padding: const EdgeInsets.all(16),
-            color: Colors.grey[100],
-            child: Row(
-              children: [
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    value: _selectedPosition,
-                    decoration: const InputDecoration(
-                      labelText: 'Pozisyon',
-                      border: OutlineInputBorder(),
-                    ),
-                    items: _positions.map((String position) {
-                      return DropdownMenuItem<String>(
-                        value: position,
-                        child: Text(position),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        setState(() {
-                          _selectedPosition = newValue;
-                        });
-                      }
-                    },
-                  ),
+            decoration: BoxDecoration(
+              color: Colors.green,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
                 ),
-                const SizedBox(width: 16),
-                Expanded(
+              ],
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: DropdownButtonFormField<String>(
+                          value: _selectedPosition,
+                          decoration: const InputDecoration(
+                            labelText: 'Pozisyon',
+                            border: InputBorder.none,
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 16),
+                          ),
+                          items: _positions.map((String position) {
+                            return DropdownMenuItem<String>(
+                              value: position,
+                              child: Text(position),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                _selectedPosition = newValue;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: DropdownButtonFormField<String>(
+                          value: _selectedCity,
+                          decoration: const InputDecoration(
+                            labelText: 'Şehir',
+                            border: InputBorder.none,
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 16),
+                          ),
+                          items: _cities.map((String city) {
+                            return DropdownMenuItem<String>(
+                              value: city,
+                              child: Text(city),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              setState(() {
+                                _selectedCity = newValue;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   child: DropdownButtonFormField<String>(
                     value: _sortBy,
                     decoration: const InputDecoration(
                       labelText: 'Sırala',
-                      border: OutlineInputBorder(),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16),
                     ),
                     items: _sortOptions.map((String option) {
                       return DropdownMenuItem<String>(
@@ -163,55 +242,128 @@ class _FindPlayerScreenState extends State<FindPlayerScreen> {
           ),
           Expanded(
             child: ListView.builder(
+              padding: const EdgeInsets.all(16),
               itemCount: _filteredPlayers.length,
               itemBuilder: (context, index) {
                 final player = _filteredPlayers[index];
                 return Card(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(player.photoUrl),
-                    ),
-                    title: Text(player.name),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  margin: const EdgeInsets.only(bottom: 16),
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
                       children: [
-                        Text('Yaş: ${player.age}'),
-                        Text('Pozisyon: ${player.position}'),
-                        Text('Boy: ${player.height}m'),
-                        Text('Kilo: ${player.weight}kg'),
-                      ],
-                    ),
-                    trailing: ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text('İletişime Geç'),
-                            content: const Text(
-                                'Oyuncu ile iletişime geçmek için mesaj gönderebilirsiniz.'),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text('İptal'),
+                        Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            image: DecorationImage(
+                              image: NetworkImage(player.photoUrl),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                player.name,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  // Mesaj gönderme işlemi burada yapılacak
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('Mesaj Gönder'),
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  Icon(Icons.location_on,
+                                      size: 16, color: Colors.grey[600]),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    player.city,
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Icon(Icons.sports_soccer,
+                                      size: 16, color: Colors.grey[600]),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    player.position,
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Icon(Icons.person,
+                                      size: 16, color: Colors.grey[600]),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    '${player.age} yaş, ${player.height}m, ${player.weight}kg',
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        foregroundColor: Colors.white,
-                      ),
-                      child: const Text('İletişime Geç'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('İletişime Geç'),
+                                content: const Text(
+                                    'Oyuncu ile iletişime geçmek için mesaj gönderebilirsiniz.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('İptal'),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.green,
+                                      foregroundColor: Colors.white,
+                                    ),
+                                    child: const Text('Mesaj Gönder'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text('İletişime Geç'),
+                        ),
+                      ],
                     ),
                   ),
                 );
